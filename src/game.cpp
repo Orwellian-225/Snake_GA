@@ -42,7 +42,6 @@ void game::chromosome_file_read(std::string filename, chromosome* c) {
     std::fclose(file);
 }
 
-
 void game::execute(std::string game_id, chromosome* c) {
     /* 
     * Start the game by calling the runnable jar with the chromosome file as a argument
@@ -50,8 +49,6 @@ void game::execute(std::string game_id, chromosome* c) {
     * Load the data from the game back into the struct
     * Flag as complete
     */
-
-    complete = false;
 
     chromosome_file_write(game_id + ".txt", c);
 

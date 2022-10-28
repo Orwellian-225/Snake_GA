@@ -13,7 +13,7 @@ struct pop {
     game ave_game;
 
     void update_ave_game();
-    void start_games();
+    void start_games(int id, int gen_id);
     std::string to_csv_string(int id, int gen_id);
     void save_state(std::string filename, int id, int gen_id);
 };

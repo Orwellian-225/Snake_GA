@@ -1,6 +1,9 @@
 #include <pop.hpp>
 #include <game.hpp>
 
+#include <thread>
+#include <thread>
+
 void pop::update_ave_game() {
     double a_t = 0., a_s = 0., a_l = 0.;
 
@@ -37,8 +40,38 @@ std::string pop::to_csv_string(int id, int gen_id) {
     return result;
 }
 
-void pop::start_games() {
+void pop::start_games(int id, int gen_id) {
     //Magic goes here
+
+    //Must be called as its own thread
+    //Makes a thread for each game, waits for all to finish, and then updates pop games.
+    //Finally it calculates the average game and then exits
+
+    std::thread game_threads[POP_GAME_COUNT];
+    for(size_t i = 0; i < POP_GAME_COUNT; ++i) {
+        game_threads[i] = std::thread(
+            [](game* g, chromosome* c, int pop_id, int gen_id, int game_id) { 
+                std::string game_str = std::to_string(gen_id) + std::to_string(pop_id) + std::to_string(game_id);
+                g->execute(game_str, c); 
+            }, 
+            &this->games[i], 
+            &this->c,
+            id,
+            gen_id,
+            i
+        );
+    }
+
+    for(std::thread &gt: game_threads) {
+        gt.join();
+    }
+
+    for(game g: games) {
+        g.calc_fitness();
+    }
+
+    this->update_ave_game();
+
 }
 
 void pop::save_state(std::string filename, int id, int gen_id) {

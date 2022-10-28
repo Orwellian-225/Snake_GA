@@ -5,7 +5,6 @@
 #include <string>
 
 struct game {
-    bool complete;
     double ave_score;
     double ave_time;
     double longest;

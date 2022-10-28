@@ -1,4 +1,4 @@
-#include <include/chromosome.hpp>
+#include <chromosome.hpp>
 
 #include <string>
 

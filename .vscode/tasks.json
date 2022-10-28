@@ -8,12 +8,13 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                "${file}",
+                "${workspaceFolder}/src/*.cpp",
                 "-o",
-                "${fileDirname}/../build/${fileBasenameNoExtension}",
+                "${workspaceFolder}/build/${fileBasenameNoExtension}",
                 "-std=c++11",
                 "-I",
-                "${fileDirname}/../include"
+                "${fileDirname}/../include",
+                "-pthread"
             ],
             "options": {
                 "cwd": "${fileDirname}"
