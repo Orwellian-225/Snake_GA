@@ -5,6 +5,8 @@
 #define GEN_SIZE 1000
 #define POP_GAME_COUNT 3
 
+#define STATUS_FILE "status.csv"
+
 int main() {
     printf("Hello World");
     return 0;
@@ -41,6 +43,14 @@ struct game {
     double ave_time = 0.0;
     double longest = 0.0;
     double fitness = 0.0;
+
+    void chromosome_file_creation(std::string filename, chromosome* c) {
+        //Save to chromosome file
+    }
+
+    void start(chromosome* c) {
+        //Start the game by calling the runnable jar with the chromosome file as a argument
+    }
 
     void calc_fitness() {
         fitness = ave_score*ave_score * longest*longest*longest / ave_time ;
@@ -110,25 +120,30 @@ struct pop {
 };
 
 void save_pop_state(pop *p) {
-    FILE* status = std::fopen("status.csv", "a+");
+    FILE* status = std::fopen(STATUS_FILE, "a+");
     p->update_ave_game();
     std::fprintf(status, p->to_csv_string().c_str());
 }
 
 void pop_crossover(pop *p1, pop *p2) {
-
+    //Perform the crossover between two pops
 }
 
-std::array<pop*, GEN_SIZE> pop_selection(std::array<pop*, GEN_SIZE> generation) {
-
+void pop_mutate(pop* p) {
+    //mutate the pop
 }
 
-std::array<pop*, GEN_SIZE> next_generation(std::array<pop*, GEN_SIZE> current_generation) {
-
+std::array<pop, GEN_SIZE> pop_selection(std::array<pop, GEN_SIZE>* generation) {
+    //Select the top performing pops of the generation
 }
 
-void save_generation(std::array<pop*, GEN_SIZE> generation) {
-    for(pop *p: generation) {
-        save_pop_state(p);
+std::array<pop, GEN_SIZE>* next_generation(std::array<pop, GEN_SIZE>* current_generation) {
+    //construct the next generation
+}
+
+void save_generation(std::array<pop, GEN_SIZE> generation) {
+    //save the generation to the status.csv file
+    for(pop p: generation) {
+        save_pop_state(&p);
     }
 }
