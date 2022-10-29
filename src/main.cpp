@@ -5,6 +5,15 @@
 
 int main() {
 
-    std::printf("Hello World");
+    
+    generation gen;
+    gen.build_generation();
+
+    for(pop* p: gen.pops) {
+        p->c.randomize();
+    }
+
+    gen.save_generation_status();
+
     return 0;
 }

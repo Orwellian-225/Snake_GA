@@ -18,7 +18,10 @@ struct generation {
     void mutate_pop(pop* p);
     pop* crossover_pops(pop* p1, pop* p2);
     std::array<pop*, SELECTION_SIZE> select_pops();
+
+    void build_generation();
     generation next_generation();
+
     void save_generation_status();
     void save_generation();
 

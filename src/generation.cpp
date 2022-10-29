@@ -88,6 +88,11 @@ generation generation::next_generation() {
     } 
 
     next.gen_id = this->gen_id + 1;
+
+    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
+        delete pops[i];
+    }
+
     return next; 
 
 }
@@ -163,4 +168,10 @@ std::array<pop*, SELECTION_SIZE> generation::select_pops() {
     }
 
     return result;
+}
+
+void generation::build_generation() {
+    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
+        pops[i] = new pop();
+    }
 }

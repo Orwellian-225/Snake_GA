@@ -13,4 +13,5 @@ struct chromosome {
     double barrier_multiplier;
 
     std::string to_csv_string();
+    void randomize();
 };
