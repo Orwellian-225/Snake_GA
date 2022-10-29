@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <thread>
 
+#define THREAD_POOL_SIZE 5
+
 generation::generation() {
     for(size_t i = 0; i < GENERATION_SIZE; ++i) {
         this->pops[i] = new pop();
@@ -28,19 +30,22 @@ generation::generation(int gen_id) {
 void generation::execute_gen() {
     std::thread pop_threads[GENERATION_SIZE];
 
-    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
-       pop_threads[i] = std::thread(
-        [](pop* p, int gen_id, int pop_id) {
-            p->start_games(gen_id, pop_id);
-            }, 
-            pops[i],
-            this->gen_id,
-            i
-        );
-    }
+    for(size_t i = 0; i < GENERATION_SIZE; i += THREAD_POOL_SIZE) {
 
-    for(std::thread &pt: pop_threads) {
-        pt.join();
+        for(size_t j = 0; j < THREAD_POOL_SIZE; ++j) {
+            pop_threads[j] = std::thread(
+                [](pop* p, int gen_id, int pop_id) {
+                    p->start_games(pop_id, gen_id);
+                    }, 
+                    pops[i],
+                    this->gen_id,
+                    i
+            );
+        }
+
+        for(std::thread &pt: pop_threads) {
+            pt.join();
+        }
     }
 
 }

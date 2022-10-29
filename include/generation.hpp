@@ -5,8 +5,8 @@
 #include <string>
 #include <array>
 
-#define GENERATION_SIZE 100
-#define SELECTION_SIZE 20
+#define GENERATION_SIZE 20
+#define SELECTION_SIZE 5
 #define MUTATION_PROBABILITY 0.05
 
 #define STATUS_FILE "../status.csv"

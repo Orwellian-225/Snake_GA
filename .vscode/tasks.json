@@ -10,10 +10,10 @@
                 "-g",
                 "${workspaceFolder}/src/*.cpp",
                 "-o",
-                "${workspaceFolder}/build/${fileBasenameNoExtension}",
+                "${workspaceFolder}/build/main",
                 "-std=c++11",
                 "-I",
-                "${fileDirname}/../include",
+                "${workspaceFolder}/include",
                 "-pthread"
             ],
             "options": {

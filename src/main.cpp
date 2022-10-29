@@ -1,24 +1,25 @@
-#include <generation.hpp>
-#include <pop.hpp>
+#include "generation.hpp"
+#include "game.hpp"
+#include "chromosome.hpp"
 
 #include <cstdio>
+#include <cstdlib>
+#include <thread>
+#include <chrono>
 
 int main() {
-
     
-    generation* gen = new generation(1);
+    generation gen(1);
 
-    for(size_t i = 0; i < 5; ++i) {
-        for(pop* p: gen->pops) {
-            p->c.randomize();
-        }
+    gen.execute_gen();
+    gen.save_generation_status();
+    
+    /*
+    game g;
+    chromosome c;
 
-        gen->save_generation_status();
-
-        generation* next_gen = generation::next_generation(gen);
-        delete gen;
-        gen = next_gen;
-    }
+    g.execute("test_kill", &c);
+    */
 
     return 0;
 }

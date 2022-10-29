@@ -18,7 +18,6 @@ std::string chromosome::to_csv_string() {
     }
 
 void chromosome::randomize() {
-
     heuristic_greater = (double)(rand()) / ((double)(RAND_MAX/1000));
     heuristic_lesser = (double)(rand()) / ((double)(RAND_MAX/1000));
     snake_midpoint = (double)(rand()) / ((double)(RAND_MAX/1000));

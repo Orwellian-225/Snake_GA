@@ -51,7 +51,7 @@ void pop::start_games(int id, int gen_id) {
     for(size_t i = 0; i < POP_GAME_COUNT; ++i) {
         game_threads[i] = std::thread(
             [](game* g, chromosome* c, int pop_id, int gen_id, int game_id) { 
-                std::string game_str = std::to_string(gen_id) + std::to_string(pop_id) + std::to_string(game_id);
+                std::string game_str = std::to_string(gen_id) + "-" + std::to_string(pop_id) + "-" + std::to_string(game_id);
                 g->execute(game_str, c); 
             }, 
             &this->games[i], 
