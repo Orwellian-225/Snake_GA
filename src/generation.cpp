@@ -8,6 +8,23 @@
 #include <cstdio>
 #include <thread>
 
+generation::generation() {
+    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
+        this->pops[i] = new pop();
+    }
+
+    this->gen_id = -1;
+}
+
+generation::generation(int gen_id) {
+    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
+        this->pops[i] = new pop();
+    }
+
+    this->gen_id = gen_id;
+}
+
+
 void generation::execute_gen() {
     std::thread pop_threads[GENERATION_SIZE];
 
@@ -29,14 +46,16 @@ void generation::execute_gen() {
 }
 
 void generation::save_generation_status() {
-    FILE* file = std::fopen(STATUS_FILE, "w+");
+    FILE* file = std::fopen(STATUS_FILE, "a+");
 
-    for(size_t i = 0; i < pops.size(); ++i) {
+    std::fprintf(file, "\n");
+
+    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
         std::string state_i = pops[i]->to_csv_string(i, gen_id);
 
-        std::fprintf(file, "%s", state_i.c_str());
+        std::fprintf(file, "%s\n", state_i.c_str());
     }
-
+ 
     std::fclose(file);
 }
 
@@ -53,14 +72,14 @@ void generation::save_generation() {
     std::fclose(file);
 }
 
-generation generation::next_generation() {
+generation* generation::next_generation(generation* current) {
 
-    generation next;
+    generation* next = new generation(current->gen_id + 1);
 
-    std::array<pop*, SELECTION_SIZE> selection = select_pops();
+    std::array<pop*, SELECTION_SIZE> selection = current->select_pops();
 
     for(size_t i = 0; i < SELECTION_SIZE; ++i) {
-        next.pops[i] = selection[i];
+        next->pops[i] = selection[i];
     }
 
     for(size_t i = 0; i < GENERATION_SIZE - SELECTION_SIZE; ++i) {
@@ -78,20 +97,14 @@ generation generation::next_generation() {
                 );
         }
 
-        next.pops[idx] = crossover_pops(selection[parents_idx.first], selection[parents_idx.second]);
+        next->pops[idx] = generation::crossover_pops(selection[parents_idx.first], selection[parents_idx.second]);
 
         float mutation_chance = (float)(rand()) / ((float)(RAND_MAX));
         if(mutation_chance <= MUTATION_PROBABILITY) {
-            mutate_pop(next.pops[idx]);
+            mutate_pop(next->pops[idx]);
         }
 
     } 
-
-    next.gen_id = this->gen_id + 1;
-
-    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
-        delete pops[i];
-    }
 
     return next; 
 
@@ -164,14 +177,25 @@ std::array<pop*, SELECTION_SIZE> generation::select_pops() {
     std::array<pop*, SELECTION_SIZE> result;
 
     for(size_t i = 0; i < SELECTION_SIZE; ++i) {
-        result[i] = pops[i];
+        result[i] = new pop();
+        result[i]->c = pops[i]->c;
+        
+        for(size_t j = 0; j < POP_GAME_COUNT; ++j) {
+            result[i]->games[j].ave_score = pops[i]->games[j].ave_score;
+            result[i]->games[j].ave_time = pops[i]->games[j].ave_time;
+            result[i]->games[j].longest = pops[i]->games[j].longest;
+        }
+
+        result[i]->ave_game.ave_score = pops[i]->ave_game.ave_score;
+        result[i]->ave_game.ave_time = pops[i]->ave_game.ave_time;
+        result[i]->ave_game.longest = pops[i]->ave_game.longest;
     }
 
     return result;
 }
 
-void generation::build_generation() {
-    for(size_t i = 0; i < GENERATION_SIZE; ++i) {
-        pops[i] = new pop();
+generation::~generation() {
+    for(pop* p: this->pops) {
+        delete p;
     }
 }

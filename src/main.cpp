@@ -6,14 +6,19 @@
 int main() {
 
     
-    generation gen;
-    gen.build_generation();
+    generation* gen = new generation(1);
 
-    for(pop* p: gen.pops) {
-        p->c.randomize();
+    for(size_t i = 0; i < 5; ++i) {
+        for(pop* p: gen->pops) {
+            p->c.randomize();
+        }
+
+        gen->save_generation_status();
+
+        generation* next_gen = generation::next_generation(gen);
+        delete gen;
+        gen = next_gen;
     }
-
-    gen.save_generation_status();
 
     return 0;
 }
