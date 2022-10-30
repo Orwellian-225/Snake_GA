@@ -8,7 +8,9 @@
 #include <cstdio>
 #include <thread>
 
-#define THREAD_POOL_SIZE 5
+#define THREAD_POOL_SIZE 2
+
+bool compare_pops(pop* p1, pop* p2) { return p1->ave_game.fitness < p2->ave_game.fitness; }
 
 generation::generation() {
     for(size_t i = 0; i < GENERATION_SIZE; ++i) {
@@ -28,7 +30,7 @@ generation::generation(int gen_id) {
 
 
 void generation::execute_gen() {
-    std::thread pop_threads[GENERATION_SIZE];
+    std::thread pop_threads[THREAD_POOL_SIZE];
 
     for(size_t i = 0; i < GENERATION_SIZE; i += THREAD_POOL_SIZE) {
 
@@ -37,9 +39,9 @@ void generation::execute_gen() {
                 [](pop* p, int gen_id, int pop_id) {
                     p->start_games(pop_id, gen_id);
                     }, 
-                    pops[i],
+                    pops[i + j],
                     this->gen_id,
-                    i
+                    i + j
             );
         }
 
@@ -51,6 +53,8 @@ void generation::execute_gen() {
 }
 
 void generation::save_generation_status() {
+    std::sort(std::begin(pops), std::end(pops), compare_pops); 
+
     FILE* file = std::fopen(STATUS_FILE, "a+");
 
     std::fprintf(file, "\n");
@@ -173,8 +177,6 @@ pop* generation::crossover_pops(pop* p1, pop* p2) {
 
     return child;
 }
-
-bool compare_pops(pop* p1, pop* p2) { return p1->ave_game.fitness < p2->ave_game.fitness; }
 
 std::array<pop*, SELECTION_SIZE> generation::select_pops() {
     std::sort(std::begin(pops), std::end(pops), compare_pops);

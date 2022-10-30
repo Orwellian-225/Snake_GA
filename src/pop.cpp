@@ -4,6 +4,10 @@
 #include <thread>
 #include <thread>
 
+pop::pop() {
+    c.randomize();
+}
+
 void pop::update_ave_game() {
     double a_t = 0., a_s = 0., a_l = 0.;
 

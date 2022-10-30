@@ -13,13 +13,13 @@
 #include <errno.h>
 #include <sstream>
 
-#define GAME_LENGTH 130
+#define GAME_LENGTH 45
 
 void game::chromosome_file_write(std::string filename, chromosome* c) {
     //Save to chromosome file
     FILE* file = fopen(filename.c_str(), "w+");
 
-    std::fprintf(file, "mew_heuristic_greater: %lf\n", c->heuristic_greater);
+    fprintf(file, "mew_heuristic_greater: %lf\n", c->heuristic_greater);
     std::fprintf(file, "mew_heuristic_lesser: %lf\n", c->heuristic_lesser);
     std::fprintf(file, "mew_snake_midpoint: %lf\n", c->snake_midpoint);
     std::fprintf(file, "mew_snake_multiplier: %lf\n", c->snake_multiplier);

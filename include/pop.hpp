@@ -12,6 +12,8 @@ struct pop {
     game games[POP_GAME_COUNT];
     game ave_game;
 
+    pop();
+
     void update_ave_game();
     void start_games(int id, int gen_id);
     std::string to_csv_string(int id, int gen_id);

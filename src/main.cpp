@@ -9,17 +9,15 @@
 
 int main() {
     
-    generation gen(1);
-
-    gen.execute_gen();
-    gen.save_generation_status();
     
-    /*
-    game g;
-    chromosome c;
-
-    g.execute("test_kill", &c);
-    */
-
+    generation* gen = new generation(1);
+    gen->execute_gen();
+    gen->save_generation_status();
+    generation* next_gen = generation::next_generation(gen);
+    next_gen->execute_gen();
+    next_gen->save_generation_status();
+    
+    
+    
     return 0;
 }

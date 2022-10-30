@@ -5,11 +5,11 @@
 #include <string>
 #include <array>
 
-#define GENERATION_SIZE 20
-#define SELECTION_SIZE 5
-#define MUTATION_PROBABILITY 0.05
+#define GENERATION_SIZE 4
+#define SELECTION_SIZE 2
+#define MUTATION_PROBABILITY 0.2
 
-#define STATUS_FILE "../status.csv"
+#define STATUS_FILE "/Users/orwellian/Projects/Snake_GA/status.csv"
 
 struct generation {
     std::array<pop*, GENERATION_SIZE> pops;
