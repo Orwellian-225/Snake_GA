@@ -8,9 +8,7 @@
 #include <cstdio>
 #include <thread>
 
-#define THREAD_POOL_SIZE 2
-
-bool compare_pops(pop* p1, pop* p2) { return p1->ave_game.fitness < p2->ave_game.fitness; }
+bool compare_pops(pop* p1, pop* p2) { return p1->ave_game.fitness > p2->ave_game.fitness; }
 
 generation::generation() {
     for(size_t i = 0; i < GENERATION_SIZE; ++i) {
@@ -196,6 +194,8 @@ std::array<pop*, SELECTION_SIZE> generation::select_pops() {
         result[i]->ave_game.ave_score = pops[i]->ave_game.ave_score;
         result[i]->ave_game.ave_time = pops[i]->ave_game.ave_time;
         result[i]->ave_game.longest = pops[i]->ave_game.longest;
+
+        pops[i] = nullptr;
     }
 
     return result;

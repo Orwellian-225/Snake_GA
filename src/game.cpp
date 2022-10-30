@@ -13,13 +13,21 @@
 #include <errno.h>
 #include <sstream>
 
-#define GAME_LENGTH 45
+void log(std::string message) {
+
+    FILE* file = fopen("log_game.txt", "a");
+    auto time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::string time_str = std::ctime(&time);
+    time_str.erase(std::remove(time_str.begin(), time_str.end(), '\n'), time_str.end());
+    std::fprintf(file, "%s %s \n", time_str.c_str(), message.c_str());
+    std::fclose(file);
+}
 
 void game::chromosome_file_write(std::string filename, chromosome* c) {
     //Save to chromosome file
     FILE* file = fopen(filename.c_str(), "w+");
 
-    fprintf(file, "mew_heuristic_greater: %lf\n", c->heuristic_greater);
+    std::fprintf(file, "mew_heuristic_greater: %lf\n", c->heuristic_greater);
     std::fprintf(file, "mew_heuristic_lesser: %lf\n", c->heuristic_lesser);
     std::fprintf(file, "mew_snake_midpoint: %lf\n", c->snake_midpoint);
     std::fprintf(file, "mew_snake_multiplier: %lf\n", c->snake_multiplier);
@@ -98,11 +106,11 @@ void game::execute(std::string game_id, chromosome* c) {
     * Flag as complete
     */
 
-    std::string filedir = "/Users/orwellian/Projects/Snake_GA/gen_game_files/" + game_id + ".txt";
+    std::string filedir = GEN_FILES_DIR + game_id + ".txt";
 
     chromosome_file_write(filedir, c);
 
-    std::string jar = "java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop";
+    std::string jar = JAR_FILE;
     std::string command = jar + " " + filedir;
     FILE* file;
     pid_t pid;
@@ -110,8 +118,11 @@ void game::execute(std::string game_id, chromosome* c) {
     auto cmd_lambda = [](const char* cmd, pid_t* pid, int* in, int* out) { 
         *pid = popen2(cmd, in, out);   
     };
+
+    log("Before: " + game_id + " " + std::to_string(pid));
     std::thread game_thr = std::thread(cmd_lambda, command.c_str(), &pid, &in, &out);
     game_thr.detach();
+    log("After: " + game_id + " " + std::to_string(pid));
 
     std::this_thread::sleep_for(std::chrono::seconds(GAME_LENGTH));
     kill(pid, 9); //kill the instance  

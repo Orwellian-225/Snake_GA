@@ -1,0 +1,6 @@
+Sun Oct 30 16:43:37 2022 1-1-1 java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop /Users/orwellian/Projects/Snake_GA/generation_files/1-1-1.txt 1 
+Sun Oct 30 16:43:37 2022 1-0-0 java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop /Users/orwellian/Projects/Snake_GA/generation_files/1-0-0.txt 1 
+Sun Oct 30 16:43:37 2022 1-0-2 java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop /Users/orwellian/Projects/Snake_GA/generation_files/1-0-2.txt 1 
+Sun Oct 30 16:43:37 2022 1-1-0 java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop /Users/orwellian/Projects/Snake_GA/generation_files/1-1-0.txt 1 
+Sun Oct 30 16:43:37 2022 1-1-2 java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop /Users/orwellian/Projects/Snake_GA/generation_files/1-1-2.txt 1 
+Sun Oct 30 16:43:37 2022 1-0-1 java -jar /Users/orwellian/Projects/Snake_GA/SnakeGA.jar -develop /Users/orwellian/Projects/Snake_GA/generation_files/1-0-1.txt 1 

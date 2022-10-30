@@ -2,10 +2,9 @@
 
 #include <chromosome.hpp>
 #include <game.hpp> 
+#include "config.hpp"
 
 #include <string>
-
-#define POP_GAME_COUNT 3
 
 struct pop {
     chromosome c;

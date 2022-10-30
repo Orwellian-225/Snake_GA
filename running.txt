@@ -1,0 +1,11 @@
+mew_heuristic_greater: 126.030844
+mew_heuristic_lesser: 199.75726
+mew_snake_midpoint: 319.24977
+mew_snake_multiplier: 629.269346
+mew_zombie_midpoint: 126.712197
+mew_zombie_multiplier: 651.253938
+mew_barrier_midpoint: 621.634213
+mew_barrier_multiplier: 803.073238
+average_time: 0.9759906661087869
+average_score: 39.05230125523013
+longest_score: 100
